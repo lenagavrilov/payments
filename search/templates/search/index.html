@@ -5,5 +5,91 @@
     </head>
     <body>
         <h1>Search for payment</h1>
+
+        <div>
+            <input name="fromPaymentKind" list='paymentsKind' placeholder="Payment kind from">
+            <input name="toPaymentKind" list='paymentsKind' placeholder="To Payment Kind">
+            <datalist id="paymentsKind">
+                <option value="aaa">
+                <option value="bbb">
+            </datalist>
+        </div>
+
+        <div>
+            <input name="fromCheck" list='checks' placeholder="Start from Check">
+            <input name="toCheck" list='checks' placeholder="Till Check">
+            <datalist id="checks">
+                <option value="aaa">
+                <option value="bbb">
+            </datalist>
+        </div>
+
+        <div>
+            <input name="fromSupplier" list='suppliers' placeholder="From Supplier">
+            <input name="toSupplier" list='suppliers' placeholder="To Supplier">
+            <datalist id="suppliers">
+                <option value="aaa">
+                <option value="bbb">
+            </datalist>
+        </div>
+
+        <div>
+            <input name="paymentfromDate" type='date' placeholder="From Date">
+            <input name="paymentToDate" type='date' placeholder="To Date">
+            
+        </div>
+
+        <div>
+            <input name="fromStatus" list='statuses' placeholder="From Status">
+            <input name="toStatus" list='statuses' placeholder="To Status">
+            <datalist id="statuses">
+                <option value="aaa">
+                <option value="bbb">
+            </datalist>
+        </div>
+
+        <div>
+            <input type="submit" value="Search">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment kind</th>
+                    <th>Check Number</th>
+                    <th>Payment Date</th>
+                    <th>Supplier</th>
+                    <th>Details</th>
+                    <th>Given On</th>
+                    <th>Payment number ...</th>
+                    <th>Out of...</th>
+                    <th>Status</th>
+                    <th>Refuse Reason</th>
+                    <th>Refuse Date</th>
+                    <th>Given Instead</th>
+                    <th>Alternative Supplyer</th>
+                    <th>Checkbook</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                   <td>1 </td>
+                    <td>2 </td>
+                    <td>3 </td>
+                    <td>4 </td>
+                    <td>5 </td>
+                    <td>6 </td>
+                    <td>7 </td>
+                    <td>8 </td>
+                    <td>9 </td>
+                    <td>10 </td>
+                    <td>11 </td>
+                    <td>12 </td>
+                    <td>13 </td>
+                    <td>14 </td>
+                 </tr>
+            </tbody>
+
+        </table>
     </body>
 </html>
