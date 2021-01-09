@@ -1,10 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang='en'>
     <head>
         <title>Search</title>
+        <link rel="stylesheet" href="{% static 'search/styles1.css' %}">
+        
     </head>
     <body>
-        <h1>Search for payment</h1>
+        <h1>Search for payment </h1>
+
+        <div>
+            <label for="paymentsKind">From Payment Kind: </label>
+            
+            <select id="paymentsKind" name="paymentsKind">
+                <option value="aaa">AAA</option>
+                <option value="bbb">BBB</option> 
+                <option value="ccc">CCC</option> 
+                <option value="dddb">DDD</option>
+            </select>
+            <label for="paymentsKind">To Payment Kind: </label>
+            <select id="paymentsKind" name="paymentsKind">
+                <option value="aaa">AAA</option>
+                <option value="bbb">BBB</option> 
+                <option value="ccc">CCC</option> 
+                <option value="dddb">DDD</option>
+            </select>
+        </div>
 
         <div>
             <input name="fromPaymentKind" list='paymentsKind' placeholder="Payment kind from">
@@ -55,38 +76,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>Payment kind</th>
-                    <th>Check Number</th>
-                    <th>Payment Date</th>
-                    <th>Supplier</th>
-                    <th>Details</th>
-                    <th>Given On</th>
-                    <th>Payment number ...</th>
-                    <th>Out of...</th>
-                    <th>Status</th>
-                    <th>Refuse Reason</th>
-                    <th>Refuse Date</th>
-                    <th>Given Instead</th>
-                    <th>Alternative Supplyer</th>
-                    <th>Checkbook</th>
+                    {% for columnName in columnsNames %}
+                        <th> {{ columnName }}</th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                   <td>1 </td>
-                    <td>2 </td>
-                    <td>3 </td>
-                    <td>4 </td>
-                    <td>5 </td>
-                    <td>6 </td>
-                    <td>7 </td>
-                    <td>8 </td>
-                    <td>9 </td>
-                    <td>10 </td>
-                    <td>11 </td>
-                    <td>12 </td>
-                    <td>13 </td>
-                    <td>14 </td>
+                    {% for columnValue in columnsValues %}
+                        <td> {{ columnValue }}</td>
+                    {% endfor %}
                  </tr>
             </tbody>
 

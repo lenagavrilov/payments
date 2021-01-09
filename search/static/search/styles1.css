@@ -1,0 +1,14 @@
+h1 {
+    padding: 20px;
+    color: green;
+}
+div {
+    height: 50px;
+    margin-left: 20px;;
+}
+
+table, td, th {
+    border: 1px black solid;
+    border-collapse: collapse;
+    padding: 5px;
+}
