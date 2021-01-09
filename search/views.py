@@ -12,3 +12,6 @@ def index(request):
         "columnsNames": columnsNames,
         "columnsValues": columnsValues
     })
+
+def addpayment(request):
+    return render(request, "search/addpayment.html")
