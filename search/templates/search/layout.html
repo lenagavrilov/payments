@@ -7,8 +7,8 @@
         
     </head>
     <body>
-        <a href= "{% url 'index' %}">Search for payments</a>
-        <a href= "{% url 'addpayment' %}">Add Payment</a>
+        <a href= "{% url 'search:index' %}">Search for payments</a>
+        <a href= "{% url 'search:addpayment' %}">Add Payment</a>
         {% block body %}
         {% endblock %}
 
