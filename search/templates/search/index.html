@@ -91,7 +91,7 @@
         <div>
             <h1>Payments: </h1>
             <ol>{%for payment in payments %}
-                <li>Payment: {{ payment.paymentKind }} </li>
+                <li>Payment: {{ payment.paymentKind }}, amount: {{ payment.amount }} to be paid on {{ payment.paymentDate }} </li>
                 {% endfor %}
 
             </ol>
