@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .models import Payments
 
 columnsNames = ["Payment", "Check Number", "Payment Date", "Supplier", "Details", "Given On", "Payment number ...", "Out of...", "Status", 
                 "Refuse Reason", "Refuse Date", "Given Instead", "Alternative Supplier", "Checkbook"]
@@ -17,7 +18,8 @@ class AddPaymentForm(forms.Form):
 def index(request):
     return render(request, 'search/index.html', {
         "columnsNames": columnsNames,
-        "columnsValues": columnsValues
+        "columnsValues": columnsValues,
+        "payments": Payments.objects.all()
     })
 
 def addpayment(request):

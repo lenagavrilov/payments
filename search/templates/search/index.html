@@ -87,5 +87,14 @@
             </tbody>
 
         </table>
+
+        <div>
+            <h1>Payments: </h1>
+            <ol>{%for payment in payments %}
+                <li>Payment: {{ payment.paymentKind }} </li>
+                {% endfor %}
+
+            </ol>
+        </div>
 {% endblock %}
 
