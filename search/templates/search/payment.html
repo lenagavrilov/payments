@@ -1,0 +1,15 @@
+{% extends "search/layout.html" %}
+
+{% block body %}
+    <h1>Payment {{ payment.id}}</h1>
+    <ul>
+        <li>Payment Kind: {{ payment.paymentKind }}</li>
+        <li>Check: {{ payment.checkNumber }} </li>
+        <li>Amount: {{ payment.amount }} NIS</li>
+        <li>PayDate: {{ payment.paymentDate }}</li>
+    </ul>
+
+    <a href="{% url 'search:index' %}">Back to the main page</a>
+
+
+{% endblock %}

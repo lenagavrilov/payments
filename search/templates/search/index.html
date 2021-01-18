@@ -43,13 +43,24 @@
         </div>
 
         <div>
-            <input name="fromSupplier" list='suppliers' placeholder="From Supplier">
-            <input name="toSupplier" list='suppliers' placeholder="To Supplier">
-            <datalist id="suppliers">
-                <option value="aaa">
-                <option value="bbb">
-            </datalist>
-        </div>
+            <label for "supplyer">From Supplyer</label>
+            <select name="supplyer">
+                {% for supplyer in supplyers %}
+                    <option value="{{ supplyer.id}}"> {{ supplyer.id}} 
+                        <label>- {{ supplyer.supplyerName }}</label>
+                    </option>
+                    
+                {% endfor %}
+            </select>
+            <label for "supplyer">To Supplyer</label>
+            <select name="supplyer">
+                {% for supplyer in supplyers %}
+                    <option value="{{ supplyer.id}}"> {{ supplyer.id}}
+                        <label>- {{ supplyer.supplyerName }}</label>
+                    </option>
+                {% endfor %}
+            </select>
+        </div>>
 
         <div>
             <input name="paymentfromDate" type='date' placeholder="From Date">
@@ -80,8 +91,21 @@
             </thead>
             <tbody>
                 <tr>
-                    {% for columnValue in columnsValues %}
-                        <td> {{ columnValue }}</td>
+                    {% for payment in payments %}
+                        <td> {{ payment.paymentKind }}</td>
+                        <td> {{ payment.checkNumber }}</td> 
+                        <td> {{ payment.paymentDate }}</td>
+                        <td> {{ payment.supplyer }} </td>
+                        <td> {{ payment.details }} </td>
+                        <td> {{ payment.givenOutDate }} </td>
+                        <td> {{ payment.paymentNumberInSeries }} </td>
+                        <td> {{ payment.quantityinSeries }} </td>
+                        <td> {{ payment.status }} </td>
+                        <td> {{ payment.refuseReason }} </td>
+                        <td> {{ payment.refuseDate }} </td>
+                        <td> {{ payment.givenInstead }} </td>
+                        <td> {{ payment.alternativeSupplyer }} </td>
+                        <td> {{ payment.checkBook }} </td>
                     {% endfor %}
                  </tr>
             </tbody>
@@ -91,7 +115,10 @@
         <div>
             <h1>Payments: </h1>
             <ol>{%for payment in payments %}
-                <li>Payment: {{ payment.paymentKind }}, amount: {{ payment.amount }} to be paid on {{ payment.paymentDate }} </li>
+                <li>
+                    <a href="{% url 'search:payment' payment.id %}">
+                    Payment: {{ payment.paymentKind }}, amount: {{ payment.amount }} to be paid on {{ payment.paymentDate }} </li>
+                    </a>
                 {% endfor %}
 
             </ol>
