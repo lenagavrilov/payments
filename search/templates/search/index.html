@@ -8,42 +8,43 @@
 
         <div>
             <label for="paymentsKind">From Payment Kind: </label>
+            <select name="paymentKind">
+                {% for paymentKind in paymentKinds %}   
+                    <option value="{{ paymentKind.id }}"> {{paymentKind.id}}
+                        <label>- {{ paymentKind.definition}}</label>
+                    </option>
+                {% endfor %}
+            </select>  
             
-            <select id="paymentsKind" name="paymentsKind">
-                <option value="aaa">AAA</option>
-                <option value="bbb">BBB</option> 
-                <option value="ccc">CCC</option> 
-                <option value="dddb">DDD</option>
-            </select>
             <label for="paymentsKind">To Payment Kind: </label>
-            <select id="paymentsKind" name="paymentsKind">
-                <option value="aaa">AAA</option>
-                <option value="bbb">BBB</option> 
-                <option value="ccc">CCC</option> 
-                <option value="dddb">DDD</option>
+            <select name="paymentKind">
+                {% for paymentKind in paymentKinds %}   
+                    <option value="{{ paymentKind.id }}"> {{paymentKind.id}}
+                        <label>- {{ paymentKind.definition}}</label>
+                    </option>
+                {% endfor %}
+            </select>  
+
+        </div>
+
+        <div>
+            <label for="checks">From Check </label>
+            <select name="checks">
+                {% for check in checks %}
+                    <option value=" {{ check.checkNumber}}"> {{check.checkNumber}}</option>
+                {% endfor %}
             </select>
+            <label for="checks">To Check </label>
+            <select name="checks">
+                {% for check in checks %}
+                    <option value=" {{ check.checkNumber}}"> {{check.checkNumber}}</option>
+                {% endfor %}
+            </select>
+
         </div>
 
         <div>
-            <input name="fromPaymentKind" list='paymentsKind' placeholder="Payment kind from">
-            <input name="toPaymentKind" list='paymentsKind' placeholder="To Payment Kind">
-            <datalist id="paymentsKind">
-                <option value="aaa">
-                <option value="bbb">
-            </datalist>
-        </div>
-
-        <div>
-            <input name="fromCheck" list='checks' placeholder="Start from Check">
-            <input name="toCheck" list='checks' placeholder="Till Check">
-            <datalist id="checks">
-                <option value="aaa">
-                <option value="bbb">
-            </datalist>
-        </div>
-
-        <div>
-            <label for "supplyer">From Supplyer</label>
+            <label for="supplyer">From Supplyer</label>
             <select name="supplyer">
                 {% for supplyer in supplyers %}
                     <option value="{{ supplyer.id}}"> {{ supplyer.id}} 
@@ -52,7 +53,7 @@
                     
                 {% endfor %}
             </select>
-            <label for "supplyer">To Supplyer</label>
+            <label for="supplyer">To Supplyer</label>
             <select name="supplyer">
                 {% for supplyer in supplyers %}
                     <option value="{{ supplyer.id}}"> {{ supplyer.id}}
@@ -60,21 +61,33 @@
                     </option>
                 {% endfor %}
             </select>
-        </div>>
+        </div>
 
         <div>
-            <input name="paymentfromDate" type='date' placeholder="From Date">
-            <input name="paymentToDate" type='date' placeholder="To Date">
+            <label for='startDate'>From Date</label>
+            <input name="paymentfromDate" type='date' value="{{ startDate }}">
+            <label for='startDate'>To Date</label>
+            <input name="paymentToDate" type='date' value="{{ finishDate }}">
             
         </div>
 
         <div>
-            <input name="fromStatus" list='statuses' placeholder="From Status">
-            <input name="toStatus" list='statuses' placeholder="To Status">
-            <datalist id="statuses">
-                <option value="aaa">
-                <option value="bbb">
-            </datalist>
+            <label for="status">From Status</label>
+            <select name="status">
+                {% for status in statuses %}
+                    <option value="{{ status.id }}">{{ status.id }}
+                        <label>- {{ status.definition }}</label>
+                    </option>
+                {% endfor %}
+            </select>
+            <label for="status">To Status</label>
+            <select name="status">
+                {% for status in statuses %}
+                    <option value="{{ status.id }}">{{ status.id }}
+                        <label>- {{ status.definition }}</label>
+                    </option>
+                {% endfor %}
+            </select>
         </div>
 
         <div>
