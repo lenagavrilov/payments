@@ -4,18 +4,21 @@ from django.db import models
 
 
 class Supplyer(models.Model):
+    supplyerCode = models.IntegerField()
     supplyerName = models.CharField(max_length = 64)
 
     def __str__(self):
         return f"{self.supplyerName}"
 
 class Status(models.Model):
+    statusCode=models.IntegerField()
     definition = models.CharField(max_length=30)
 
     def __str__(self):
         return f"{self.definition}" 
 
 class PaymentsKind(models.Model):
+    paymentKindCode = models.IntegerField()
     definition = models.CharField(max_length = 30)
 
     def __str__(self):

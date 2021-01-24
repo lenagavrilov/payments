@@ -10,7 +10,7 @@
             <label for="paymentsKind">From Payment Kind: </label>
             <select name="paymentKind">
                 {% for paymentKind in paymentKinds %}   
-                    <option value="{{ paymentKind.id }}"> {{paymentKind.id}}
+                    <option value="{{ paymentKind.paymentKindCode }}"> {{paymentKind.paymentKindCode}}
                         <label>- {{ paymentKind.definition}}</label>
                     </option>
                 {% endfor %}
@@ -19,7 +19,7 @@
             <label for="paymentsKind">To Payment Kind: </label>
             <select name="paymentKind">
                 {% for paymentKind in paymentKinds %}   
-                    <option value="{{ paymentKind.id }}"> {{paymentKind.id}}
+                    <option value="{{ paymentKind.paymentKindCode }}"> {{paymentKind.paymentKindCode}}
                         <label>- {{ paymentKind.definition}}</label>
                     </option>
                 {% endfor %}
@@ -47,7 +47,7 @@
             <label for="supplyer">From Supplyer</label>
             <select name="supplyer">
                 {% for supplyer in supplyers %}
-                    <option value="{{ supplyer.id}}"> {{ supplyer.id}} 
+                    <option value="{{ supplyer.supplyerCode}}"> {{ supplyer.supplyerCode}} 
                         <label>- {{ supplyer.supplyerName }}</label>
                     </option>
                     
@@ -56,7 +56,7 @@
             <label for="supplyer">To Supplyer</label>
             <select name="supplyer">
                 {% for supplyer in supplyers %}
-                    <option value="{{ supplyer.id}}"> {{ supplyer.id}}
+                    <option value="{{ supplyer.supplyerCode}}"> {{ supplyer.supplyerCode}}
                         <label>- {{ supplyer.supplyerName }}</label>
                     </option>
                 {% endfor %}
@@ -75,7 +75,7 @@
             <label for="status">From Status</label>
             <select name="status">
                 {% for status in statuses %}
-                    <option value="{{ status.id }}">{{ status.id }}
+                    <option value="{{ status.statusCode }}">{{ status.statusCode }}
                         <label>- {{ status.definition }}</label>
                     </option>
                 {% endfor %}
@@ -83,13 +83,25 @@
             <label for="status">To Status</label>
             <select name="status">
                 {% for status in statuses %}
-                    <option value="{{ status.id }}">{{ status.id }}
+                    <option value="{{ status.statusCode }}">{{ status.statusCode }}
                         <label>- {{ status.definition }}</label>
                     </option>
                 {% endfor %}
             </select>
         </div>
-
+        
+        <div>
+            <label for="concentrated">Do concentrated report for</label>
+            <select name="concentrated">
+                <option value="SUN">SUN</option>
+                <option value="MON">MON</option>
+                <option value="TUE">TUE</option>
+                <option value="WED" selected="selected">WED</option>
+                <option value="THU">THU</option>
+                <option value="FRI">FRI</option>
+                <option value="SAT">SAT</option>
+            </select>
+        </div>
         <div>
             <input type="submit" value="Search">
         </div>
@@ -103,24 +115,30 @@
                 </tr>
             </thead>
             <tbody>
+                {% for payment in payments %}
                 <tr>
-                    {% for payment in payments %}
-                        <td> {{ payment.paymentKind }}</td>
-                        <td> {{ payment.checkNumber }}</td> 
-                        <td> {{ payment.paymentDate }}</td>
+                        <td>{{ payment.paymentKind }}</td>
+                        <td>{% if payment.checkNumber is not None %} 
+                             {{ payment.checkNumber }}
+                            {% else %}
+                            {% endif %}
+                            
+                        </td> 
+                        <td> {{ payment.paymentDate|date:"d/m/Y" }}</td>
                         <td> {{ payment.supplyer }} </td>
                         <td> {{ payment.details }} </td>
-                        <td> {{ payment.givenOutDate }} </td>
+                        <td> {{ payment.givenOutDate|date:"d/m/Y" }} </td>
                         <td> {{ payment.paymentNumberInSeries }} </td>
                         <td> {{ payment.quantityinSeries }} </td>
                         <td> {{ payment.status }} </td>
                         <td> {{ payment.refuseReason }} </td>
-                        <td> {{ payment.refuseDate }} </td>
+                        <td> {{ payment.refuseDate|date:"d/m/Y" }} </td>
                         <td> {{ payment.givenInstead }} </td>
                         <td> {{ payment.alternativeSupplyer }} </td>
                         <td> {{ payment.checkBook }} </td>
-                    {% endfor %}
+                    
                  </tr>
+                 {% endfor %}
             </tbody>
 
         </table>

@@ -18,6 +18,8 @@ columnsValues = [10,2,3,4,5,6,7,8,9,10,11,12,13,14]
 class AddPaymentForm(forms.Form):
     paymentKind = forms.CharField(label='Payment Kind')
 
+
+
 def startDate():
     todaysdate = datetime.date.today()
     startMonth = datetime.datetime(todaysdate.year, todaysdate.month, 1)
