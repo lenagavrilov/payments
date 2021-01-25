@@ -8,7 +8,7 @@ from .models import Payments, Supplyer, PaymentsKind, Status
 import datetime
 import calendar
 
-columnsNames = ["Payment", "Check Number", "Payment Date", "Supplyer", "Details", "Given On", "Payment number ...", "Out of...", "Status", 
+columnsNames = ["Payment", "Amount", "Check Number", "Payment Date", "Supplyer", "Details", "Given On", "Payment number ...", "Out of...", "Status", 
                 "Refuse Reason", "Refuse Date", "Given Instead", "Alternative Supplier", "Checkbook"]
 
 columnsValues = [10,2,3,4,5,6,7,8,9,10,11,12,13,14]
@@ -70,6 +70,7 @@ def payment(request, payment_id):
     return render(request, "search/payment.html", {
         "payment": payment
     })
+
 
 
 

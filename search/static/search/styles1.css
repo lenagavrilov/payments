@@ -12,3 +12,8 @@ table, td, th {
     border-collapse: collapse;
     padding: 5px;
 }
+
+label {
+    border: 1px black solid;
+    
+}

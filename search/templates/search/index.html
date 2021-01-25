@@ -91,6 +91,7 @@
         </div>
         
         <div>
+            <input type="checkbox" id="checkConcentrated">
             <label for="concentrated">Do concentrated report for</label>
             <select name="concentrated">
                 <option value="SUN">SUN</option>
@@ -106,7 +107,13 @@
             <input type="submit" value="Search">
         </div>
 
-        <table>
+        <div>
+            <label>Total for the selection:</label>
+            <label id="total">5000 NIS</label>
+        </div>
+
+        
+        <table id="detailed">
             <thead>
                 <tr>
                     {% for columnName in columnsNames %}
@@ -118,9 +125,11 @@
                 {% for payment in payments %}
                 <tr>
                         <td>{{ payment.paymentKind }}</td>
+                        <td> {{ payment.amount}}</td>
                         <td>{% if payment.checkNumber is not None %} 
                              {{ payment.checkNumber }}
                             {% else %}
+                            -------
                             {% endif %}
                             
                         </td> 
@@ -144,6 +153,25 @@
         </table>
 
         <div>
+
+        </div>
+    
+        <table id="concentrated">
+            <thead>
+                <tr>
+                    <th>Day to pay</th>
+                    <th>Amount to pay</th>
+                    <th>Dates included</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>25/01/21</td>
+                <td>5000</td>
+                <td>18/1/21 - 25/1/21</td>
+            </tr>
+        </table>
+
+        <div>
             <h1>Payments: </h1>
             <ol>{%for payment in payments %}
                 <li>
@@ -154,5 +182,8 @@
 
             </ol>
         </div>
+    
+        
+
 {% endblock %}
 
