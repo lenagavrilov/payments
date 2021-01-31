@@ -5,13 +5,19 @@
         <title>Search</title>
         <link rel="stylesheet" href="{% static 'search/styles1.css' %}">
         <style>
-            #total {
-               border: 1px black solid;
-                           
+            #total, #totalCount {
+               border: none;
+            
             }
 
             #concentrated{
                 display: none;
+            }
+
+            #paymentkinds {
+                border: 1px black solid;
+                border-collapse: collapse;
+                padding: 5px;
             }
 
           
@@ -49,6 +55,7 @@
     <body>
         <a href= "{% url 'search:index' %}">Search for payments</a>
         <a href= "{% url 'search:addpayment' %}">Add Payment</a>
+        <a href= "{% url 'search:addpaymentkind' %}">Add Payment Kind</a>
         {% block body %}
         {% endblock %}
 

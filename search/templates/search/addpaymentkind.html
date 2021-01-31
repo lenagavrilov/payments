@@ -1,0 +1,31 @@
+{% extends "search/layout.html" %}
+
+
+{% block body %}
+    <h1>Add payment kind</h1>
+    <form action="{% url 'search:addpaymentkind' %}" method="post">
+        {% csrf_token %}
+        <div>
+        {{ form }}
+            <input type="submit" value="Add">
+        </div>
+    </form>
+
+    <table id="paymentkinds">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paymentKind in paymentKinds %}
+                <tr>
+                    <td>{{ paymentKind.paymentKindCode}}</td>
+                    <td>{{ paymentKind.definition}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+{% endblock %}

@@ -17,7 +17,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("search:index"))
         else:
             return render(request, "users/login.html", {
                 "message": "You are not logged in. Please log in to see the page:"

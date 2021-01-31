@@ -6,110 +6,115 @@
         
         <h1>Search for payment </h1>
 
-        <div>
-            <label for="paymentsKind">From Payment Kind: </label>
-            <select name="paymentKind">
-                {% for paymentKind in paymentKinds %}   
-                    <option value="{{ paymentKind.paymentKindCode }}"> {{paymentKind.paymentKindCode}}
-                        <label>- {{ paymentKind.definition}}</label>
-                    </option>
-                {% endfor %}
-            </select>  
+         <form action="{% url 'search:index' %}" id="searchform" method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="paymentsKind">From Payment Kind: </label>
+                <select name="paymentKind">
+                    {% for paymentKind in paymentKinds %}   
+                        <option value="{{ paymentKind.paymentKindCode }}"> {{paymentKind.paymentKindCode}}
+                            <label>- {{ paymentKind.definition}}</label>
+                        </option>
+                    {% endfor %}
+                </select>  
+                
+                <label for="paymentsKind">To Payment Kind: </label>
+                <select name="paymentKind">
+                    {% for paymentKind in paymentKinds %}   
+                        <option value="{{ paymentKind.paymentKindCode }}" selected="selected"> {{paymentKind.paymentKindCode}}
+                            <label>- {{ paymentKind.definition}}</label>
+                        </option>
+                    {% endfor %}
+                </select> 
+             </div>
+            <div>
+                <label for="checks">From Check </label>
+                <select name="checks">
+                    {% for check in checks %}
+                        <option value=" {{ check.checkNumber}}"> {{check.checkNumber}}</option>
+                    {% endfor %}
+                </select>
+                <label for="checks">To Check </label>
+                <select name="checks">
+                    {% for check in checks %}
+                        <option value=" {{ check.checkNumber}}" selected="selected"> {{check.checkNumber}}</option>
+                    {% endfor %}
+                </select>
+    
+            </div>
+    
+            <div>
+                <label for="supplyer">From Supplyer</label>
+                <select name="supplyer">
+                    {% for supplyer in supplyers %}
+                        <option value="{{ supplyer.supplyerCode}}"> {{ supplyer.supplyerCode}} 
+                            <label>- {{ supplyer.supplyerName }}</label>
+                        </option>
+                        
+                    {% endfor %}
+                </select>
+                <label for="supplyer">To Supplyer</label>
+                <select name="supplyer">
+                    {% for supplyer in supplyers %}
+                        <option value="{{ supplyer.supplyerCode}}" selected="selected"> {{ supplyer.supplyerCode}}
+                            <label>- {{ supplyer.supplyerName }}</label>
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div>
+                <label for='startDate'>From Date</label>
+                <input name="paymentfromDate" type='date' value="{{ startDate }}">
+                <label for='startDate'>To Date</label>
+                <input name="paymentToDate" type='date' value="{{ finishDate }}">
+                
+            </div>
+    
+            <div>
+                <label for="status">From Status</label>
+                <select name="status">
+                    {% for status in statuses %}
+                        <option value="{{ status.statusCode }}" >{{ status.statusCode }}
+                            <label>- {{ status.definition }}</label>
+                        </option>
+                    {% endfor %}
+                </select>
+                <label for="status">To Status</label>
+                <select name="status">
+                    {% for status in statuses %}
+                        <option value="{{ status.statusCode }}" selected="selected">{{ status.statusCode }}
+                            <label>- {{ status.definition }}</label>
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
             
-            <label for="paymentsKind">To Payment Kind: </label>
-            <select name="paymentKind">
-                {% for paymentKind in paymentKinds %}   
-                    <option value="{{ paymentKind.paymentKindCode }}"> {{paymentKind.paymentKindCode}}
-                        <label>- {{ paymentKind.definition}}</label>
-                    </option>
-                {% endfor %}
-            </select>  
+            <div>
+                <input type="checkbox" id="checkConcentrated">
+                <label for="concentrated">Do concentrated report for</label>
+                <select name="concentrated">
+                    <option value="SUN">SUN</option>
+                    <option value="MON">MON</option>
+                    <option value="TUE">TUE</option>
+                    <option value="WED" selected="selected">WED</option>
+                    <option value="THU">THU</option>
+                    <option value="FRI">FRI</option>
+                    <option value="SAT">SAT</option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="Search" id="submitSearch">
+            </div>
 
-        </div>
-
-        <div>
-            <label for="checks">From Check </label>
-            <select name="checks">
-                {% for check in checks %}
-                    <option value=" {{ check.checkNumber}}"> {{check.checkNumber}}</option>
-                {% endfor %}
-            </select>
-            <label for="checks">To Check </label>
-            <select name="checks">
-                {% for check in checks %}
-                    <option value=" {{ check.checkNumber}}"> {{check.checkNumber}}</option>
-                {% endfor %}
-            </select>
-
-        </div>
+        </form>
 
         <div>
-            <label for="supplyer">From Supplyer</label>
-            <select name="supplyer">
-                {% for supplyer in supplyers %}
-                    <option value="{{ supplyer.supplyerCode}}"> {{ supplyer.supplyerCode}} 
-                        <label>- {{ supplyer.supplyerName }}</label>
-                    </option>
-                    
-                {% endfor %}
-            </select>
-            <label for="supplyer">To Supplyer</label>
-            <select name="supplyer">
-                {% for supplyer in supplyers %}
-                    <option value="{{ supplyer.supplyerCode}}"> {{ supplyer.supplyerCode}}
-                        <label>- {{ supplyer.supplyerName }}</label>
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div>
-            <label for='startDate'>From Date</label>
-            <input name="paymentfromDate" type='date' value="{{ startDate }}">
-            <label for='startDate'>To Date</label>
-            <input name="paymentToDate" type='date' value="{{ finishDate }}">
-            
-        </div>
-
-        <div>
-            <label for="status">From Status</label>
-            <select name="status">
-                {% for status in statuses %}
-                    <option value="{{ status.statusCode }}">{{ status.statusCode }}
-                        <label>- {{ status.definition }}</label>
-                    </option>
-                {% endfor %}
-            </select>
-            <label for="status">To Status</label>
-            <select name="status">
-                {% for status in statuses %}
-                    <option value="{{ status.statusCode }}">{{ status.statusCode }}
-                        <label>- {{ status.definition }}</label>
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div>
-            <input type="checkbox" id="checkConcentrated">
-            <label for="concentrated">Do concentrated report for</label>
-            <select name="concentrated">
-                <option value="SUN">SUN</option>
-                <option value="MON">MON</option>
-                <option value="TUE">TUE</option>
-                <option value="WED" selected="selected">WED</option>
-                <option value="THU">THU</option>
-                <option value="FRI">FRI</option>
-                <option value="SAT">SAT</option>
-            </select>
-        </div>
-        <div>
-            <input type="submit" value="Search">
-        </div>
-
-        <div>
-            <label>Total for the selection:</label>
-            <label id="total">5000 NIS</label>
+                <h3>Total:
+                <label id="total">{{ total.amount__sum }} NIS.</label>
+                Number of payments:
+                <label id="totalCount">{{totalCount.amount__count}}.</label>
+                </h3>
         </div>
 
         
