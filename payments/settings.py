@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'payments.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'payments2',
+        'NAME': 'payments3',
         'HOST': 'DESKTOP-7FQ889E\\SQLEXPRESS',
         'USER': 'sa',
         'PASSWORD': '',

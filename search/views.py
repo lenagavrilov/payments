@@ -9,7 +9,6 @@ from django.db.models import Sum, Max, Count
 from . forms import AddPaymentKindForm
 
 
-
 import datetime
 import calendar
 
@@ -40,23 +39,57 @@ def finishDate():
 # Create your views here.
 def index(request):
     if request.method == "POST":
-        return HttpResponse('hi')
-    else:
+        fromPaymentKind = request.POST['frompaymentKind']
+        toPaymentKind = request.POST["topaymentKind"]
+        fromPaymentDate = request.POST['paymentfromDate']
+        toPaymentDate = request.POST['paymentToDate']
+        fromSupplyer = request.POST['fromSupplyer']
+        toSupplyer = request.POST['toSupplyer']
+        fromStatus = request.POST['fromStatus']
+        toStatus = request.POST['toStatus']
+        payments_filter= {'paymentDate__gte' : fromPaymentDate, 
+            'paymentDate__lte' : toPaymentDate,
+            'paymentKind__gte' : fromPaymentKind,
+            'paymentKind__lte' : toPaymentKind,
+            'supplyer__gte' : fromSupplyer,
+            'supplyer__lte' : toSupplyer,
+            'status__gte' : fromStatus,
+            'status__lte' : toStatus}
         return render(request, 'search/index.html', {
         "columnsNames": columnsNames,
-        "payments": Payments.objects.filter(paymentDate__gte = startDate(), paymentDate__lte = finishDate()),
-     #  "payments": Payments.objects.all(),
+        "payments": Payments.objects.filter(**payments_filter),
         "supplyers": Supplyer.objects.all(),
+        "fromSupplyers": Supplyer.objects.filter,
+        "toSupplyers": toSupplyer,
         "paymentKinds": PaymentsKind.objects.all(),
-       # "maxPaymentKind": PaymentsKind.objects.aggregate(Max('paymentKindCode')),
+        "checks": Payments.objects.filter(checkNumber__isnull=False),
+        "statuses": Status.objects.all(),
+        "startDate": fromPaymentDate,
+        "finishDate": toPaymentDate,
+        
+        "total": Payments.objects.filter(**payments_filter).aggregate(Sum('amount')),
+        "totalCount": Payments.objects.filter(**payments_filter).aggregate(Count('amount'))
+                    })
+
+    return render(request, 'search/index.html', {
+        "columnsNames": columnsNames,
+        "payments": Payments.objects.filter(
+            paymentDate__gte = startDate(), 
+            paymentDate__lte = finishDate(),
+        ),
+        "supplyers": Supplyer.objects.all(),
+     #   "fromSupplyers": Supplyer.objects.all(),
+     #   "toSupplyers": Supplyer.objects.all(),
+        "paymentKinds": PaymentsKind.objects.all(),
         "checks": Payments.objects.filter(checkNumber__isnull=False),
         "statuses": Status.objects.all(),
         "startDate": startDate(),
         "finishDate": finishDate(),
         "total": Payments.objects.filter(paymentDate__gte = startDate(), paymentDate__lte = finishDate()).aggregate(Sum('amount')),
         "totalCount": Payments.objects.filter(paymentDate__gte = startDate(), paymentDate__lte = finishDate()).aggregate(Count('amount'))
-        
-        })
+
+    })
+
         
 def addpayment(request):
     if request.method == "POST":
@@ -88,11 +121,10 @@ def addpaymentkind(request):
        form = AddPaymentKindForm(request.POST)
         
        if form.is_valid():
-           paymentKindCode = form.cleaned_data["paymentKindCode"]
+       
            paymentDefinition = form.cleaned_data["definition"]
-           newRow = PaymentsKind(paymentKindCode=paymentKindCode,
-                                definition=paymentDefinition)
-           newRow.save()
+           newPaymentKind = PaymentsKind(definition=paymentDefinition)
+           newPaymentKind.save()
            return HttpResponseRedirect(reverse('search:addpaymentkind'))
        else:
            form=AddPaymentKindForm()

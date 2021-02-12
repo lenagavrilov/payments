@@ -1,9 +1,12 @@
 from django import forms
+from django.forms import ModelForm
+from . models import PaymentsKind, Payments
 
 class SearchForm(forms.Form):
     paymentKind = forms.CharField(label='From Payment Kind, max_length=2')
 
 class AddPaymentKindForm(forms.Form):
-    paymentKindCode = forms.IntegerField(label="Enter the code")
-    definition = forms.CharField(label="Enter payment Kind", max_length=100)
+    definition = forms.ModelChoiceField(queryset=PaymentsKind.objects.all(),
+                                        label="Enter new payment kind")
     
+

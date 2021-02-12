@@ -3,29 +3,34 @@
 
 {% block body %}
     <h1>Add payment kind</h1>
-    <form action="{% url 'search:addpaymentkind' %}" method="post">
-        {% csrf_token %}
-        <div>
-        {{ form }}
-            <input type="submit" value="Add">
-        </div>
-    </form>
 
-    <table id="paymentkinds">
-        <thead>
-            <tr>
-                <th>Code</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for paymentKind in paymentKinds %}
+    <div>
+        <form action="{% url 'search:addpaymentkind' %}" method="post">
+            {% csrf_token %}
+            <div>
+            {{ form }}
+                <input type="submit" value="Add">
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <table id="paymentkinds">
+            <thead>
                 <tr>
-                    <td>{{ paymentKind.paymentKindCode}}</td>
-                    <td>{{ paymentKind.definition}}</td>
+                    <th>Code</th>
+                    <th>Description</th>
                 </tr>
-            {% endfor %}
-        </tbody>
+            </thead>
+            <tbody>
+                {% for paymentKind in paymentKinds %}
+                    <tr>
+                        <td>{{ paymentKind.id}}</td>
+                        <td>{{ paymentKind.definition}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
+    </div>
 {% endblock %}
