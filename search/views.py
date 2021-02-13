@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Payments, Supplyer, PaymentsKind, Status
 from django.db.models import Sum, Max, Count
-
+from django.db import IntegrityError
+from django.contrib import messages
 from . forms import AddPaymentKindForm
 
 
@@ -18,7 +19,6 @@ columnsNames = ["Payment", "Amount", "Check Number", "Payment Date", "Supplyer",
 
 class AddPaymentForm(forms.Form):
     paymentKind = forms.CharField(label='Payment')
-
 
 
 
@@ -35,33 +35,54 @@ def finishDate():
     finishMonth = finishMonth.strftime("%Y-%m-%d") 
     return finishMonth
  
+def getQuerySet(request):
+    fromPaymentKind = request.POST['frompaymentKind']
+    toPaymentKind = request.POST["topaymentKind"]
+    fromPaymentDate = request.POST['paymentfromDate']
+    toPaymentDate = request.POST['paymentToDate']
+    fromSupplyer = request.POST['fromSupplyer']
+    toSupplyer = request.POST['toSupplyer']
+    fromStatus = request.POST['fromStatus']
+    toStatus = request.POST['toStatus']
+    payments_filter= {'paymentDate__gte' : fromPaymentDate, 
+        'paymentDate__lte' : toPaymentDate,
+        'paymentKind__gte' : fromPaymentKind,
+        'paymentKind__lte' : toPaymentKind,
+        'supplyer__gte' : fromSupplyer,
+        'supplyer__lte' : toSupplyer,
+        'status__gte' : fromStatus,
+        'status__lte' : toStatus}
+    return payments_filter
 
-# Create your views here.
+
 def index(request):
     if request.method == "POST":
-        fromPaymentKind = request.POST['frompaymentKind']
-        toPaymentKind = request.POST["topaymentKind"]
+        fromPaymentKind = int(request.POST['frompaymentKind'])
+        toPaymentKind = int(request.POST["topaymentKind"])
         fromPaymentDate = request.POST['paymentfromDate']
         toPaymentDate = request.POST['paymentToDate']
         fromSupplyer = request.POST['fromSupplyer']
         toSupplyer = request.POST['toSupplyer']
         fromStatus = request.POST['fromStatus']
         toStatus = request.POST['toStatus']
-        payments_filter= {'paymentDate__gte' : fromPaymentDate, 
-            'paymentDate__lte' : toPaymentDate,
-            'paymentKind__gte' : fromPaymentKind,
-            'paymentKind__lte' : toPaymentKind,
-            'supplyer__gte' : fromSupplyer,
-            'supplyer__lte' : toSupplyer,
-            'status__gte' : fromStatus,
-            'status__lte' : toStatus}
+        payments_filter  = {'paymentDate__gte' : fromPaymentDate, 
+                            'paymentDate__lte' : toPaymentDate,
+                            'paymentKind__gte' : fromPaymentKind,
+                            'paymentKind__lte' : toPaymentKind,
+                            'supplyer__gte' : fromSupplyer,
+                            'supplyer__lte' : toSupplyer,
+                            'status__gte' : fromStatus,
+                            'status__lte' : toStatus}
+
         return render(request, 'search/index.html', {
         "columnsNames": columnsNames,
         "payments": Payments.objects.filter(**payments_filter),
         "supplyers": Supplyer.objects.all(),
-        "fromSupplyers": Supplyer.objects.filter,
-        "toSupplyers": toSupplyer,
-        "paymentKinds": PaymentsKind.objects.all(),
+ #      "fromSupplyers": Supplyer.objects.filter,
+ #       "toSupplyers": toSupplyer,
+        "paymentKinds": PaymentsKind.objects.order_by('id'),
+        "fromPaymentKind": fromPaymentKind,
+        "toPaymentKind": toPaymentKind,
         "checks": Payments.objects.filter(checkNumber__isnull=False),
         "statuses": Status.objects.all(),
         "startDate": fromPaymentDate,
@@ -70,7 +91,7 @@ def index(request):
         "total": Payments.objects.filter(**payments_filter).aggregate(Sum('amount')),
         "totalCount": Payments.objects.filter(**payments_filter).aggregate(Count('amount'))
                     })
-
+    
     return render(request, 'search/index.html', {
         "columnsNames": columnsNames,
         "payments": Payments.objects.filter(
@@ -78,9 +99,8 @@ def index(request):
             paymentDate__lte = finishDate(),
         ),
         "supplyers": Supplyer.objects.all(),
-     #   "fromSupplyers": Supplyer.objects.all(),
-     #   "toSupplyers": Supplyer.objects.all(),
-        "paymentKinds": PaymentsKind.objects.all(),
+
+        "paymentKinds": PaymentsKind.objects.order_by('id'),
         "checks": Payments.objects.filter(checkNumber__isnull=False),
         "statuses": Status.objects.all(),
         "startDate": startDate(),
@@ -118,20 +138,45 @@ def payment(request, payment_id):
 
 def addpaymentkind(request):
     if request.method == "POST":
-       form = AddPaymentKindForm(request.POST)
-        
-       if form.is_valid():
+        try:
+            form = AddPaymentKindForm(request.POST)
+  
+            if form.is_valid():
+            
+                paymentDefinition = form.cleaned_data["definition"]
+                newPaymentKind = PaymentsKind(definition=paymentDefinition)
+                
+                newPaymentKind.save()
+                messages.success(request, paymentDefinition + " was successfully added.")
+                return HttpResponseRedirect(reverse('search:addpaymentkind'))
+            else:
+                form=AddPaymentKindForm()
+        except IntegrityError:
+            messages.error(request, 'This paymentKind already exists: ' + paymentDefinition)
+ 
        
-           paymentDefinition = form.cleaned_data["definition"]
-           newPaymentKind = PaymentsKind(definition=paymentDefinition)
-           newPaymentKind.save()
-           return HttpResponseRedirect(reverse('search:addpaymentkind'))
-       else:
-           form=AddPaymentKindForm()
     
     return render (request, "search/addpaymentkind.html", {
         "form": AddPaymentKindForm(),
-        "paymentKinds": PaymentsKind.objects.all()
+        "paymentKinds": PaymentsKind.objects.order_by('id')
     
     })
 
+def addsupplyer(request):
+    last_supplyer = Supplyer.objects.last().supplyerCode
+    next_supplyer = last_supplyer+1
+    if request.method == 'POST':
+        newcode = request.POST['new_code']
+        newname = request.POST['new_supplyer']
+        new_supplyer = Supplyer(supplyerCode=newcode, supplyerName=newname)
+        new_supplyer.save()
+        next_supplyer +=1
+        return render(request, 'search/addsupplyer.html', {
+            'supplyers': Supplyer.objects.all(),
+            'next_supplyer': next_supplyer
+        })
+   
+    return  render(request, 'search/addsupplyer.html', {
+        'supplyers': Supplyer.objects.all(),
+        'next_supplyer': next_supplyer
+    })

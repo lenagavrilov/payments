@@ -7,5 +7,6 @@ urlpatterns = [
     path("", views.index, name='index'),
     path("addpayment", views.addpayment, name="addpayment"),
     path("<int:payment_id>", views.payment, name="payment"),
-    path("addpaymentkind", views.addpaymentkind, name="addpaymentkind")
+    path("addpaymentkind", views.addpaymentkind, name="addpaymentkind"),
+    path("addsupplyer", views.addsupplyer, name="addsupplyer")
 ]

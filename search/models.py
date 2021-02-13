@@ -18,11 +18,11 @@ class Status(models.Model):
         return f"{self.definition}" 
 
 class PaymentsKind(models.Model):
-    paymentKindCode = models.IntegerField()
-    definition = models.CharField(max_length = 30)
+    definition = models.CharField(max_length = 50, unique=True)
+
 
     def __str__(self):
-        return f"{self.definition}"
+        return f"{self.id}"
 
 
 class Payments(models.Model):

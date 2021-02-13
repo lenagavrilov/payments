@@ -5,6 +5,14 @@
     <h1>Add payment kind</h1>
 
     <div>
+    {% if messages %}
+        {% for message in messages%}
+            {% if message.tags %} {{message}} {% endif%}
+        {% endfor%}
+     {% endif%}   
+    </div>
+
+    <div>
         <form action="{% url 'search:addpaymentkind' %}" method="post">
             {% csrf_token %}
             <div>

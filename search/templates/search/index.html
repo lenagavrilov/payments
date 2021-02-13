@@ -13,11 +13,14 @@
                 <label for="paymentsKind">From Payment Kind: </label>
                 <select name="frompaymentKind">
                     {% for paymentKind in paymentKinds %}   
-                        <option value="{{ paymentKind.id }}"> {{paymentKind.id}}
+                        <option value="{{ paymentKind.id }}"
+                        {% if paymentKind.id == fromPaymentKind %}
+                        selected 
+                        {% endif %}> 
+                        {{paymentKind.id}}
                             <label>- {{ paymentKind.definition}}</label> 
                         </option>
                     {% endfor %}
-
                 </select>  
                 
                 <label for="paymentsKind">To Payment Kind: </label>
@@ -49,8 +52,7 @@
                 <label for="supplyer">From Supplyer</label>
                 <select name='fromSupplyer'>
                     {% for supplyer in supplyers %}
-                        <option  value="{{ supplyer.supplyerCode}} "
-                        {% if supplyer.supplyerCode ==  fromSupplyers %}selected{% endif %}>
+                        <option  value="{{ supplyer.supplyerCode}} ">
                          {{ supplyer.supplyerCode}} 
                             <label>- {{ supplyer.supplyerName }}</label>
                         </option>
