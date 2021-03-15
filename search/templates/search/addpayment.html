@@ -5,8 +5,52 @@
     <form action="{% url 'search:addpayment' %}" method="post">
         {% csrf_token %}
         <div>
-        {{ form }}
+            <label for='paymentKinds'>Payment Kind:</label>
+            <select name='paymentKinds' id = 'paymentKinds'>
+                {% for paymentKind in paymentKinds %}
+                   <option value={{paymentKind.id}}>{{paymentKind.definition}}</option>
+                {% endfor %}
+            </select>
+        
+            <label for='checkNumber'>Check Number:</label>
+            <input type='text'>
+        </div>
+        <div>
+            <label for='amount'>Amount: </label>
+            <input type='text'>
+        </div>
+        <div>
+            <label for='paymentDate'>Payment Date:</label>
+            <input type="date">
+        </div>
+        <div>
+            <label for='supplyer'>Supplyer: </label>
+            <select name="supplyer" id="supplyer">
+                {% for supplyer in supplyers %}
+                    <option value={{supplyer.id}}>{{supplyer.supplyerName}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for='details'>details</label>
+            <input type='text'>
+        </div>
+        <div>
+            <label for='givenDate'>Given on: </label>
+            <input type = 'date'>
+        </div>
+        <div>
+            <label for='paymentNumber'>Payment Number: </label>
+            <input type='number'>
+            <label for='outOf'>Out of: </label>
+            <input type = 'number'>
+        </div>
+
+        <div>
+            
             <input type="submit" value="Add">
         </div>
     </form>
+
+    
 {% endblock %}

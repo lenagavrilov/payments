@@ -3,69 +3,100 @@
 
 
 {% block body %}
-        
+    <center>
         <h1>Search for payment </h1>
-
+    </center>
          <form action="{% url 'search:index' %}" id="searchform" method="POST">
             {% csrf_token %}
 
             <div>
-                <label for="paymentsKind">From Payment Kind: </label>
+                <label for="paymentsKind" class='conditionalDisplay'>Payment Kind: </label>
+                <input type='checkbox' id='all_payment_kinds' name='all_payment_kinds' class='conditionalDisplay'
+                {% if all_payment_kinds == 'on' %}checked="checked"
+                {% endif %}>
+                <label for='all_payment_kinds'>All</label>
+
+                <label for="frompaymentsKind">Choose Payment Kind: </label>
                 <select name="frompaymentKind">
                     {% for paymentKind in paymentKinds %}   
-                        <option value="{{ paymentKind.id }}"
+                         <option value="{{ paymentKind.id }}"
                         {% if paymentKind.id == fromPaymentKind %}
                         selected 
                         {% endif %}> 
-                        {{paymentKind.id}}
-                            <label>- {{ paymentKind.definition}}</label> 
+                        {{paymentKind.definition}}
                         </option>
-                    {% endfor %}
-                </select>  
-                
-                <label for="paymentsKind">To Payment Kind: </label>
-                <select name="topaymentKind">
-                    {% for paymentKind in paymentKinds %}   
-                        <option value="{{ paymentKind.id }}" selected="selected"> {{paymentKind.id}}
-                            <label>- {{ paymentKind.definition}}</label>
-                        </option>
-                    {% endfor %}
-                </select> 
-             </div>
+                    {% endfor %} 
+                </select>
+                    <label for="topaymentsKind" class="invisible">To Payment Kind: </label>
+                    <select name="topaymentKind" class="invisible">
+                        {% for paymentKind in paymentKinds %}   
+                            <option value="{{ paymentKind.id }}" selected="selected" > {{paymentKind.definition}}
+ 
+                            </option>
+                        {% endfor %}
+                    </select> 
+                 </div>
+
 
              <div>
-                <label for="checks">From Check </label>
+                <label for="checks">Checks: </label>
+                <input type='checkbox' id='all_checks' name='all_checks'
+                {% if all_checks == 'on' %}checked="checked"
+                {% endif %}>
+                <label for='all_checks'>All</label>
+                <label for="checks">Choose check number:  </label>
                 <select name="fromChecks">
                     {% for check in checks %}
-                        <option value=" {{ check.checkNumber}}"> {{check.checkNumber}}</option>
+                        <option value=" {{ check.checkNumber}}"
+                        {% if check.checkNumber == fromCheck %}
+                        selected
+                        {% endif %}>
+                        {{check.checkNumber}}</option>
                     {% endfor %}
                 </select>
-                <label for="checks">To Check </label>
-                <select name="toChecks">
+                <label for="checks" class="invisible">To Check </label>
+                <select name="toChecks" class="invisible">
                     {% for check in checks %}
                         <option value=" {{ check.checkNumber}}" selected="selected"> {{check.checkNumber}}</option>
                     {% endfor %}
                 </select>
+    
+                <input type="radio", id="all_dates" name="check_dates" value="all_dates" 
+                {% if check_dates == 'all_dates' %}checked {% endif %} >
+                <label for="all_dates">Search all dates</label>
+
+                <input type="radio" id="chosen_dates" name="check_dates" value="chosen_dates"
+                {% if check_dates == 'chosen_dates' %}checked {% endif %}>
+                <label for="chosen_dates">Use the dates provided</label>
+                
              </div>
     
             <div>
-                <label for="supplyer">From Supplyer</label>
+                <label for="supplyer">Supplyers: </label>
+                <input type='checkbox' id='all_supplyers' name='all_supplyers'
+                {% if all_supplyers == 'on'%} checked="checked"
+                {% endif %}>
+                <label for="all_supplyers">All</label>
+                <label for="fromSupplyer">Choose a supplyer: </label>
                 <select name='fromSupplyer'>
                     {% for supplyer in supplyers %}
-                        <option  value="{{ supplyer.supplyerCode}} ">
-                         {{ supplyer.supplyerCode}} 
-                            <label>- {{ supplyer.supplyerName }}</label>
+                        <option  value="{{ supplyer.supplyerCode}} "
+                        {% if supplyer.supplyerCode == fromSupplyer %}
+                        selected
+                        {% endif %}>
+                        {{ supplyer.supplyerName}}
+
                         </option>
                         
                     {% endfor %}
                 </select>
-                <label for="supplyer">To Supplyer</label>
-                <select name="toSupplyer">
+                <label for="supplyer" class="invisible">To Supplyer</label>
+                <select name="toSupplyer" class="invisible">
                     {% for supplyer in supplyers %}
                         <option value="{{ supplyer.supplyerCode}}" 
                         selected>
-                         {{ supplyer.supplyerCode}}
-                            <label>- {{ supplyer.supplyerName }}</label>
+                         {{ supplyer.supplyerName}}
+                        
                         </option>
                     {% endfor %}
                 </select>
@@ -80,23 +111,15 @@
             </div>
     
             <div>
-                <label for="status">From Status</label>
-                <select name='fromStatus'>
-                    {% for status in statuses %}
-                        <option value="{{ status.statusCode }}" >{{ status.statusCode }}
-                            <label>- {{ status.definition }}</label>
-                        </option>
-                    {% endfor %}
-                </select>
-                <label for="status">To Status</label>
-                <select name="toStatus">
-                    {% for status in statuses %}
-                        <option value="{{ status.statusCode }}" selected="selected">{{ status.statusCode }}
-                            <label>- {{ status.definition }}</label>
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+                <label for="status">Include statuses: </label>
+                {% for status in statuses %}
+                    <input type='checkbox' value='{{ status.id }}' name='statuses' 
+                    {% if status in chosen_statuses %}
+                    checked
+                    {% endif %}>
+                    <label for='{{ status }}'>{{ status }}</label>
+                {% endfor %}
+            </div> 
  
               
             <div>
@@ -141,7 +164,7 @@
             <tbody>
                 {% for payment in payments %}
                 <tr>
-                        <td>{{ payment.paymentKind }}</td>
+                        <td>{{ payment.paymentKind.definition }}</td>
                         <td> {{ payment.amount}}</td>
                         <td>{% if payment.checkNumber is not None %} 
                              {{ payment.checkNumber }}
