@@ -1,0 +1,42 @@
+{% extends "search/layout.html" %}
+
+{% block body %}
+    <h1>Add Supplyer </h1>
+
+    <div>
+        <form action="{% url 'search:addsupplyer' %}" method="POST">
+            {% csrf_token %}
+
+            <div>
+                
+                <input type="hidden" name='new_code' value= {{next_supplyer}} readonly>
+
+                <label for='supplyer_name'>New Supplyer: </label>
+                <input type="text" name='new_supplyer' placeholder="New supplyer name">
+
+                <input type="submit" value="Add">
+            </div>
+        </form>
+        
+    </div>
+
+    <div>
+        <table id="supplyers">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplyer in supplyers %}
+                    <tr>
+                        <td>{{ supplyer.supplyerCode}}</td>
+                        <td>{{ supplyer.supplyerName}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+{% endblock%}

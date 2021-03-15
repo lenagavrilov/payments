@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'payments.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'payments2',
+        'NAME': 'payments3',
         'HOST': 'DESKTOP-7FQ889E\\SQLEXPRESS',
         'USER': 'sa',
         'PASSWORD': '',
@@ -127,3 +127,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# DataFlair #Logging Information
+LOGGING = {
+    'version': 1,
+    # Version of logging
+    'disable_existing_loggers': False,
+    #disable logging 
+    # Handlers #############################################################
+    'handlers': {
+        # 'file': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.FileHandler',
+        #     'filename': 'dataflair-debug.log',
+        # },
+########################################################################
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    # Loggers ####################################################################
+    'loggers': {
+        'django': {
+            'handlers': [ 'console'],
+            'level': 'INFO',
+            'propagate': True
+        },
+    },
+}

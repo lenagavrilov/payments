@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 
@@ -18,11 +19,11 @@ class Status(models.Model):
         return f"{self.definition}" 
 
 class PaymentsKind(models.Model):
-    paymentKindCode = models.IntegerField()
-    definition = models.CharField(max_length = 30)
+    definition = models.CharField(max_length = 50, unique=True)
+
 
     def __str__(self):
-        return f"{self.definition}"
+        return f"{self.id}"
 
 
 class Payments(models.Model):
@@ -41,6 +42,7 @@ class Payments(models.Model):
     givenInstead = models.CharField(max_length=200,null=True)
     alternativeSupplyer = models.CharField(max_length=64, null=True)
     checkBook = models.IntegerField(null=True)
+    updateDate = models.DateField(auto_now=True)
 
     def __str__(self):
         return f"Payment Kind {self.paymentKind}, Check number {self.checkNumber} -  to be paid on {self.paymentDate}."

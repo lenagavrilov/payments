@@ -1,0 +1,12 @@
+{% extends "search/layout.html" %}
+
+{% block body %}
+    <h1>Add payment</h1>
+    <form action="{% url 'search:addpayment' %}" method="post">
+        {% csrf_token %}
+        <div>
+        {{ form.checkNumber }}
+            <input type="submit" value="Add">
+        </div>
+    </form>
+{% endblock %}
