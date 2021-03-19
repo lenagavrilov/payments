@@ -2,30 +2,30 @@
 
 {% block body %}
     <h1>Add payment</h1>
-    <form action="{% url 'search:addpayment' %}" method="post">
+    <form action="{% url 'search:addpayment' %}" method="POST">
         {% csrf_token %}
         <div>
-            <label for='paymentKinds'>Payment Kind:</label>
-            <select name='paymentKinds' id = 'paymentKinds'>
+            <label for='payment_kind'>Payment Kind:</label>
+            <select name='payment_kind'>
                 {% for paymentKind in paymentKinds %}
                    <option value={{paymentKind.id}}>{{paymentKind.definition}}</option>
                 {% endfor %}
             </select>
         
-            <label for='checkNumber'>Check Number:</label>
-            <input type='text'>
+            <label for='check_number'>Check Number:</label>
+            <input type='text' name='check_number'>
         </div>
         <div>
             <label for='amount'>Amount: </label>
-            <input type='text'>
+            <input type='text' name='amount'>
         </div>
         <div>
-            <label for='paymentDate'>Payment Date:</label>
-            <input type="date">
+            <label for='payment_date'>Payment Date:</label>
+            <input type="date" name='payment_date'>
         </div>
         <div>
             <label for='supplyer'>Supplyer: </label>
-            <select name="supplyer" id="supplyer">
+            <select name="supplyer" name="supplyer">
                 {% for supplyer in supplyers %}
                     <option value={{supplyer.id}}>{{supplyer.supplyerName}}</option>
                 {% endfor %}
@@ -33,11 +33,11 @@
         </div>
         <div>
             <label for='details'>details</label>
-            <input type='text'>
+            <input type='text' name = details>
         </div>
         <div>
-            <label for='givenDate'>Given on: </label>
-            <input type = 'date'>
+            <label for='given_date'>Given on: </label>
+            <input type = 'date' name='given_date'>
         </div>
         <div>
             <label for='paymentNumber'>Payment Number: </label>
@@ -51,6 +51,24 @@
             <input type="submit" value="Add">
         </div>
     </form>
+
+    <div>
+        <label>Payments inserted today:</label>
+        <table id='recently_added'>
+            <thead>
+                <tr>
+                    <th>Payment Kind</th>
+                    <th>Check Number</th>
+                    <th>Amount</th>
+                    <th>To be paid on</th>
+                    <th>Details</th>
+                    <th>Given On Date</th>
+                </tr>
+            </thead>
+
+
+        </table>
+    </div>
 
     
 {% endblock %}

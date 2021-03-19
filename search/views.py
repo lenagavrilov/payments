@@ -162,6 +162,45 @@ def addpayment(request):
         })"""
 
 def addpayment(request):
+    payment_to_add = {}
+    if request.method == 'POST':
+        
+        payment_kind = request.POST['payment_kind']
+        payment_kind = PaymentsKind.objects.get(id=payment_kind)
+        payment_to_add['paymentKind'] = payment_kind
+
+        check_number =  request.POST['check_number']
+        if check_number:
+            payment_to_add['checkNumber'] = check_number
+
+        amount = request.POST['amount']
+        payment_to_add['amount'] = amount
+
+        payment_date = request.POST['payment_date']
+        payment_to_add['paymentDate'] = payment_date
+
+        supplyer = request.POST['supplyer']
+        supplyer = Supplyer.objects.get(supplyerCode=supplyer)
+        payment_to_add['supplyer'] = supplyer
+
+        details = request.POST['details']
+        payment_to_add['details'] = details
+
+        given_date = request.POST['given_date']
+        if given_date:
+            payment_to_add['givenOutDate'] = given_date
+
+        status = Status.objects.get(statusCode=1)
+        payment_to_add['status'] = status
+        
+        new_payment = Payments(**payment_to_add)
+        new_payment.save()
+        return render(request, "search/addpayment.html", {
+        'paymentKinds': PaymentsKind.objects.order_by('id'),
+        'supplyers': Supplyer.objects.order_by('supplyerName'),
+        'statuses': Status.objects.order_by('id')
+    }
+    )     
     return render(request, "search/addpayment.html", {
         'paymentKinds': PaymentsKind.objects.order_by('id'),
         'supplyers': Supplyer.objects.order_by('supplyerName'),
