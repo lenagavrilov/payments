@@ -1,5 +1,37 @@
 {% extends "search/layout.html" %}
+{% load static %}
 
+{% block title %}
+    <title>Search</title>
+{% endblock %}
+
+{% block js%}
+    <script src="{% static 'C:\Users\Lena_Laptop\Documents\WebProgramming\Django\Payments\payments\search\static\search\index.js'%}"></script>
+{% endblock %}  
+
+{% block styleForPage %}
+    <style>
+        #total, #totalCount {
+        border: none;
+        
+        }
+        
+        #concentrated{
+            display: none;
+        }
+
+        #paymentkinds {
+            border: 1px black solid;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    
+        .invisible {
+            display: none;
+        }
+    
+    </style>
+{% endblock %}
 
 
 {% block body %}

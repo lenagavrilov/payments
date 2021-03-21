@@ -2,17 +2,34 @@
 <!DOCTYPE html>
 <html lang='en'>
     <head>
-        {% block title %} {% endblock %}
-                      
+        <title>Search</title>
+        
         <link rel="stylesheet" href="{% static 'search/styles1.css' %}">
-
-        {% block styleForPage %} {% endblock %}
-           
-        {% block js %} 
-        <script>
+        <style>
+            #total, #totalCount {
+               border: none;
+            }
             
+            #concentrated{
+                display: none;
+            }
+
+            #paymentkinds {
+                border: 1px black solid;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+            
+            .invisible {
+                display: none;
+            }
+
+          
+        </style>
+        <script>
+
+
         </script>
-        {% endblock %}
         
     </head>
     <body>

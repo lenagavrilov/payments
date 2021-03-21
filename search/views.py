@@ -163,6 +163,7 @@ def addpayment(request):
 
 def addpayment(request):
     payment_to_add = {}
+    possible_errors = {}
     if request.method == 'POST':
         
         payment_kind = request.POST['payment_kind']
@@ -171,7 +172,17 @@ def addpayment(request):
 
         check_number =  request.POST['check_number']
         if check_number:
-            payment_to_add['checkNumber'] = check_number
+            if int(check_number) >0:
+                if not Payments.objects.filter(checkNumber=int(check_number)).exists():
+                   payment_to_add['checkNumber'] = check_number
+                else:
+                    return render(request, "search/addpayment.html", {
+                        'paymentKinds': PaymentsKind.objects.order_by('id'),
+                        'supplyers': Supplyer.objects.order_by('supplyerName'),
+                        'statuses': Status.objects.order_by('id'),
+                        'wrong_check': check_number
+                    }
+                    )  
 
         amount = request.POST['amount']
         payment_to_add['amount'] = amount

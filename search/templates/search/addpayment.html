@@ -1,7 +1,21 @@
 {% extends "search/layout.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Add Payment</title>
+{% endblock %}
+ 
+{% block js%}
+       
+    <script src="{% static 'C:\Users\Lena_Laptop\Documents\WebProgramming\Django\Payments\payments\search\static\search\addpayment.js'%}"></script>
+{% endblock %}     
+
+
+
 
 {% block body %}
     <h1>Add payment</h1>
+    <button onClick="validateForm()">Validate</button>
     <form action="{% url 'search:addpayment' %}" method="POST">
         {% csrf_token %}
         <div>
@@ -13,7 +27,7 @@
             </select>
         
             <label for='check_number'>Check Number:</label>
-            <input type='text' name='check_number'>
+            <input type='text' name='check_number'  id='check_number'>
         </div>
         <div>
             <label for='amount'>Amount: </label>
