@@ -1,0 +1,31 @@
+h1 {
+    padding: 20px;
+    color: green;
+}
+div {
+    height: 50px;
+    margin-left: 20px;;
+}
+
+table, td, th {
+    border: 1px black solid;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+
+.invisible {
+    display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

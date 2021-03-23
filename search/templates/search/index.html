@@ -26,18 +26,14 @@
             padding: 5px;
         }
     
-        .invisible {
-            display: none;
-        }
     
     </style>
 {% endblock %}
 
 
 {% block body %}
-    <center>
-        <h1>Search for payment </h1>
-    </center>
+    <h1>Search for payment </h1>
+    
          <form action="{% url 'search:index' %}" id="searchform" method="POST">
             {% csrf_token %}
 
