@@ -29,7 +29,7 @@ class PaymentsKind(models.Model):
 class Payments(models.Model):
     paymentKind = models.ForeignKey(PaymentsKind, on_delete=models.PROTECT, related_name="paymentKind")
     checkNumber = models.IntegerField(null=True)
-    amount = models.IntegerField(default=0)
+    amount = models.FloatField(default=0.00)
     paymentDate = models.DateField()
     supplyer = models.ForeignKey(Supplyer, on_delete=models.PROTECT, related_name="supplyer")
     details = models.CharField(max_length=200, null=True)

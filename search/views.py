@@ -43,7 +43,6 @@ def index(request):
 
     if request.method == "POST":
         
-        
         status_list = request.POST.getlist('statuses')
         payments_filter['status' + '__in'] = status_list
 
@@ -91,15 +90,15 @@ def index(request):
             toSupplyer = fromSupplyer
         payments_filter['supplyer__gte'] = fromSupplyer
         payments_filter['supplyer__lte'] = toSupplyer
-
+        
         print(payments_filter)
-        print(status_list)
+        
     
         return render(request, 'search/index.html', {
                                 "columnsNames": columnsNames,
-                                "payments": Payments.objects.filter(**payments_filter),
+                                "payments": Payments.objects.filter(**payments_filter).order_by('paymentDate'),
                                 "supplyers": Supplyer.objects.all(),
-                                "fromSupplyers": Supplyer.objects.filter,
+                                "fromSupplyers": Supplyer.objects.all(),
                                 "toSupplyers": toSupplyer,
                                 "paymentKinds": PaymentsKind.objects.order_by('id'),
                                 "fromPaymentKind": paymentKind,
@@ -122,11 +121,11 @@ def index(request):
     payments_filter['status' + '__in'] = status_list
     payments_filter['paymentDate__gte'] = startDate()
     payments_filter['paymentDate__lte'] = finishDate() 
-    print(status_list)                   
+                     
     print(payments_filter)
     return render(request, 'search/index.html', {
         "columnsNames": columnsNames,
-        "payments": Payments.objects.filter(**payments_filter),
+        "payments": Payments.objects.filter(**payments_filter).order_by('paymentDate'),
 
         "supplyers": Supplyer.objects.all(),
         "all_payment_kinds": 'on',
@@ -191,7 +190,8 @@ def addpayment(request):
         payment_to_add['paymentDate'] = payment_date
 
         supplyer = request.POST['supplyer']
-        supplyer = Supplyer.objects.get(supplyerCode=supplyer)
+       # print(supplyer)
+        supplyer = Supplyer.objects.get(id=supplyer)
         payment_to_add['supplyer'] = supplyer
 
         details = request.POST['details']
@@ -207,12 +207,14 @@ def addpayment(request):
         new_payment = Payments(**payment_to_add)
         new_payment.save()
         return render(request, "search/addpayment.html", {
+            'added_payments': Payments.objects.filter(updateDate=datetime.date.today()).order_by('-id'), 
         'paymentKinds': PaymentsKind.objects.order_by('id'),
         'supplyers': Supplyer.objects.order_by('supplyerName'),
         'statuses': Status.objects.order_by('id')
     }
     )     
     return render(request, "search/addpayment.html", {
+        'added_payments': Payments.objects.filter(updateDate=datetime.date.today()).order_by('-id'),
         'paymentKinds': PaymentsKind.objects.order_by('id'),
         'supplyers': Supplyer.objects.order_by('supplyerName'),
         'statuses': Status.objects.order_by('id')

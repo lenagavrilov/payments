@@ -8,27 +8,30 @@
    
 {% block body %}
     <h1>Add payment</h1>
+    
     <form action="{% url 'search:addpayment' %}" method="POST">
         {% csrf_token %}
         <div>
             <label for='payment_kind'>Payment Kind:</label>
-            <select name='payment_kind'>
+            <select name='payment_kind' id='payment_kind'>
                 {% for paymentKind in paymentKinds %}
-                   <option value={{paymentKind.id}}>{{paymentKind.definition}}</option>
+                   <option value={{paymentKind.id}} required>{{paymentKind.definition}}</option>
                 {% endfor %}
             </select>
         
-            <label for='check_number'>Check Number:</label>
-            <input type='number'min='1' step='1' name='check_number'   id='check_number' placeholder="Enter check number">
+            <!--label for='check_number' id='lbl_check_number'>Check Number:</label-->
+            <input type='number' min='1' step='1' name='check_number'   id='check_number' placeholder="Enter check number">
             <label id='check_error_message' class='invisible'  style="color:red;">Error</label>
         </div>
         <div>
             <label for='amount'>Amount: </label>
-            <input type='text' name='amount'>
+            <input type='number' min=0 step=0.01 name='amount' id='amount' value='0.00'>
+            <label id='amount_error_message' class='invisible'  style="color:red;">Error</label>
         </div>
         <div>
             <label for='payment_date'>Payment Date:</label>
-            <input type="date" name='payment_date'>
+            <input type="date" name='payment_date' id='payment_date' required>
+            <label id='date_error_message' class="invisible" style="color:red">Error</label>
         </div>
         <div>
             <label for='supplyer'>Supplyer: </label>
@@ -44,17 +47,11 @@
         </div>
         <div>
             <label for='given_date'>Given on: </label>
-            <input type = 'date' name='given_date'>
-        </div>
-        <div>
-            <label for='paymentNumber'>Payment Number: </label>
-            <input type='number'>
-            <label for='outOf'>Out of: </label>
-            <input type = 'number'>
+            <input type = 'date' name='given_date' id='given_date'>
+            <label id='given_date_error_message' class="invisible" style="color:red">Error</label>
         </div>
 
         <div>
-            
             <input type="submit" value="Add" id='add_payment'>
         </div>
     </form>
@@ -66,14 +63,32 @@
                 <tr>
                     <th>Payment Kind</th>
                     <th>Check Number</th>
+                    <th>Supplyer</th>
                     <th>Amount</th>
                     <th>To be paid on</th>
                     <th>Details</th>
                     <th>Given On Date</th>
                 </tr>
             </thead>
-
-
+            </tbody>
+            {% for payment in added_payments %}
+                <tr>
+                    <td>{{ payment.paymentKind.definition }}</td>
+                    <td>{% if payment.checkNumber is not None %} 
+                        {{ payment.checkNumber }}
+                       {% else %}
+                       -------
+                       {% endif %}
+                    </td>
+                    <td> {{ payment.supplyer}}</td>
+                    <td>{{ payment.amount}}</td>
+                    <td>{{ payment.paymentDate|date:"d/m/Y" }}</td>
+                    <td>{{ payment.details }}</td>
+                    <td>{{ payment.givenOutDate|date:"d/m/Y" }}</td>
+                </tr>
+               
+            </tbody>
+            {% endfor %}
         </table>
     </div>
 

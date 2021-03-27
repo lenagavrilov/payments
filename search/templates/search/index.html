@@ -108,7 +108,7 @@
                 <label for="fromSupplyer">Choose a supplyer: </label>
                 <select name='fromSupplyer'>
                     {% for supplyer in supplyers %}
-                        <option  value="{{ supplyer.supplyerCode}} "
+                        <option  value="{{ supplyer.id}} "
                         {% if supplyer.supplyerCode == fromSupplyer %}
                         selected
                         {% endif %}>
@@ -121,7 +121,7 @@
                 <label for="supplyer" class="invisible">To Supplyer</label>
                 <select name="toSupplyer" class="invisible">
                     {% for supplyer in supplyers %}
-                        <option value="{{ supplyer.supplyerCode}}" 
+                        <option value="{{ supplyer.id}}" 
                         selected>
                          {{ supplyer.supplyerName}}
                         
